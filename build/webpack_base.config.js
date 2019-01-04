@@ -1,6 +1,7 @@
 var config = require('../config')
 var path = require('path')
 var webpack = require('webpack')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
 	entry: {
@@ -14,12 +15,30 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.css$/,
+				test: /\.(css|less)$/,
 				exclude: /node_modules/,
             	use: [
-        			"style-loader",
-		        	"css-loader"
+        			'style-loader',
+		        	'css-loader',
+		        	'less-loader'
 		        ]
+			},
+			{
+				test: /\.(js)$/,
+				exclude: /node_modules/,
+            	loader: 'babel-loader'
+			},
+			{
+				test: /\.tpl$/,
+				loader: 'ejs-loader'
+			},
+			{
+				test: /\.(png|jpe?g|gif|svg)(\?.*)$/,
+				loader: 'url-loader',
+				options: {
+					limit: 10000,
+					name: path.resolve(__dirname, '../dist/[name].[ext]')
+				}
 			}
 		]
 	},
@@ -33,6 +52,12 @@ module.exports = {
                 }
             }
         }
-   	}
+   	},
+   	plugins: [
+   		new ExtractTextPlugin({
+   			filename: 'common.css',
+   			allChunks: true 
+   		})
+   	]
 }
 

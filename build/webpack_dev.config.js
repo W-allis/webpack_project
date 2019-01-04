@@ -16,9 +16,8 @@ module.exports = merge(baseWebpack, {
 			filename: 'index.html',
 			inject: 'body',
 			favicon: './favicon.jpg',
-			options: {
-				title: 'test'
-			}
+			title: 'wallis',
+			proxy: config.dev.proxy
 		})
 	]
 })
